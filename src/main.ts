@@ -9,6 +9,7 @@ async function bootstrap() {
   app.enableCors();
   app.useStaticAssets('./trip-data/gtfs', {
     prefix: '/trip-data-gtfs',
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
   });
 
   const port = process.env.PORT || 3000;
