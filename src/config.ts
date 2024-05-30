@@ -9,6 +9,15 @@ const configSchema = Joi.object({
     prefix: Joi.string().regex(/\\$/).required(),
     files: Joi.array().items(Joi.string()).required(),
   }).required(),
+  auth: Joi.object({
+    google: Joi.object({
+      clientId: Joi.string().required(),
+    }).required(),
+    yahoo: Joi.object({
+      clientId: Joi.string().required(),
+      clientSecret: Joi.string().required(),
+    }).required(),
+  }).required(),
 });
 
 export type Config = Joi.extractType<typeof configSchema>;
@@ -20,7 +29,11 @@ export const config: Config = parse(
 
 async function load() {
   // do runtime validation to make sure typescript doesn't eat it up wrongly
-  const valid = await configSchema.validate(process.env, { abortEarly: true });
+  const valid = await configSchema.validate(process.env, {
+    abortEarly: true,
+    stripUnknown: true,
+  });
+  process.env = valid;
   Logger.log('Configuration parsed and validated', 'config.ts');
 }
 
