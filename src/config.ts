@@ -33,9 +33,8 @@ async function load() {
   // do runtime validation to make sure typescript doesn't eat it up wrongly
   const valid = await configSchema.validate(process.env, {
     abortEarly: true,
-    stripUnknown: true,
+    // stripUnknown: true,
   });
-  process.env = valid;
   Logger.log('Configuration parsed and validated', 'config.ts');
 }
 
