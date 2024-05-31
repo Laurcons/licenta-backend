@@ -18,6 +18,8 @@ const configSchema = Joi.object({
       clientSecret: Joi.string().required(),
     }).required(),
   }).required(),
+  jwtSecret: Joi.string().required(),
+  mongoUri: Joi.string().required(),
 });
 
 export type Config = Joi.extractType<typeof configSchema>;

@@ -10,18 +10,12 @@ export class AuthController {
   @Post('google')
   async validateGoogle(@Body() body: GoogleTokenDto) {
     const decoded = await this.authService.validateGoogleToken(body.token);
-    return {
-      valid: true,
-      decoded,
-    };
+    return decoded;
   }
 
   @Post('yahoo')
   async validateYahoo(@Body() body: YahooCodeDto) {
     const decoded = await this.authService.validateYahooToken(body.code);
-    return {
-      valid: true,
-      decoded,
-    };
+    return decoded;
   }
 }
