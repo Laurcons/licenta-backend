@@ -18,6 +18,7 @@ export class AuthService {
   async authTokenForEmail(email: string, name: string) {
     // find user (or create user)
     const user = await this.userService.findByEmailOrCreate(email, name);
+    console.log({ user });
     // generate auth token
     const authToken = jwt.sign(
       {

@@ -25,6 +25,7 @@ export class UserService {
         },
         {
           upsert: true,
+          new: true,
         },
       )
       .then((u) => u!);
