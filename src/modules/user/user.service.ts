@@ -30,4 +30,8 @@ export class UserService {
       )
       .then((u) => u!);
   }
+
+  async getUserTrips(user: User) {
+    return user.trips;
+  }
 }

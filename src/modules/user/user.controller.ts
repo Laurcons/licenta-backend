@@ -13,4 +13,9 @@ export class UserController {
   async getMe(@ReqUser() user: User) {
     return { user: await this.userService.getByEmail(user.email) };
   }
+
+  @Get('me/trips')
+  async getTrips(@ReqUser() user: User) {
+    return { trips: await this.userService.getUserTrips(user) };
+  }
 }
