@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
 
 @Schema({
   timestamps: true,
 })
 export class Trip {
-  _id: ObjectId;
+  _id: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 

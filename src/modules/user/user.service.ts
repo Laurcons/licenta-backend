@@ -1,7 +1,8 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { AuthProvider, User, UserDocument } from './models/user';
-import { Model } from 'mongoose';
+import mongoose, { Model, ObjectId, Types } from 'mongoose';
+import { Trip } from './models/trip.schema';
 
 @Injectable()
 export class UserService {
@@ -53,5 +54,28 @@ export class UserService {
 
   async getUserTrips(user: User) {
     return user.trips;
+  }
+
+  async addTripToUser(user: User, trip: Partial<Trip>) {
+    const newUser = await this.userModel.findOneAndUpdate(
+      { _id: user._id },
+      {
+        $push: {
+          trips: trip,
+        },
+      },
+      { new: true },
+    );
+    return newUser!.trips.at(-1);
+  }
+
+  async removeTripFromUser(user: User, tripId: string | Types.ObjectId) {
+    tripId = new mongoose.Types.ObjectId(tripId);
+    const trip = user.trips.find((t) => t._id.equals(tripId));
+    if (!trip) throw new HttpException('Could not find trip id ' + tripId, 404);
+    await this.userModel.deleteOne({
+      _id: trip._id,
+    });
+    return trip;
   }
 }
